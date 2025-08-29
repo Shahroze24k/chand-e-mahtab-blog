@@ -22,6 +22,7 @@ export default function Header() {
                 width={44}
                 height={44}
                 className="w-10 h-10 md:w-11 md:h-11 group-hover:rotate-12 transition-transform duration-300"
+                priority={true}
               />
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-600 opacity-0 group-hover:opacity-20 blur-md transition-opacity duration-300"></div>
             </div>

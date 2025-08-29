@@ -2,6 +2,30 @@ import { NextRequest, NextResponse } from 'next/server';
 import { isAuthenticated } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 
+export async function GET(request: NextRequest) {
+  try {
+    // Check authentication
+    if (!isAuthenticated(request)) {
+      return NextResponse.json(
+        { message: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const siteMeta = await prisma.siteMeta.findFirst({
+      where: { id: 'main' }
+    });
+
+    return NextResponse.json(siteMeta || {});
+  } catch (error) {
+    console.error('Settings fetch error:', error);
+    return NextResponse.json(
+      { message: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Check authentication

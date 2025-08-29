@@ -20,10 +20,10 @@ Founded with the vision of bridging traditions and modernity, we share insights 
       aboutUr: `چاند مہتاب میں خوش آمدید، جہاں علم چاندنی کی طرح روشنی ڈالتا ہے۔ یہ بلاگ انگریزی اور اردو دونوں نقطہ نظر سے حکمت، جوانی، اور ثقافتی ورثے کے موضوعات کو تلاش کرتا ہے۔
 
 روایات اور جدیدیت کو جوڑنے کے وژن کے ساتھ قائم کیا گیا، ہم ایسی بصیرتیں شیئر کرتے ہیں جو نسلوں اور ثقافتوں میں گونجتی ہیں۔`,
-      email: 'contact@chandemahab.com',
-      facebook: 'https://facebook.com/chandemahab',
-      twitter: 'https://twitter.com/chandemahab',
-      instagram: 'https://instagram.com/chandemahab',
+      email: 'contact@chand-e-mahtab.com',
+      facebook: 'https://facebook.com/chand.e.mahtab',
+      twitter: 'https://twitter.com/chand_e_mahtab',
+      instagram: 'https://instagram.com/chand.e.mahtab',
     },
   });
 

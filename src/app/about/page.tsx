@@ -48,6 +48,7 @@ Founded with the vision of bridging traditions and modernity, we share insights 
                 width={120}
                 height={120}
                 className="mx-auto mb-8"
+                priority={true}
               />
               
               <h1 className="font-playfair text-4xl md:text-6xl font-bold mb-4">

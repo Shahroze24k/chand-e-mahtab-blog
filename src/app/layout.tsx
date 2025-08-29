@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ scrollBehavior: 'smooth' }}>
       <body
         className={`${playfairDisplay.variable} ${notoNastaliqUrdu.variable} antialiased`}
         style={{ backgroundColor: '#FAFBF8', color: '#14221C' }}

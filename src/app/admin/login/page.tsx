@@ -52,6 +52,7 @@ export default function AdminLoginPage() {
               width={80}
               height={80}
               className="mx-auto mb-4"
+              priority={true}
             />
           </Link>
           <h1 className="font-playfair text-3xl font-bold mb-2" style={{ color: '#14221C' }}>

@@ -43,6 +43,7 @@ export default async function Home() {
                       width={140}
                       height={140}
                       className="mx-auto hover-scale drop-shadow-2xl"
+                      priority={true}
                     />
                     <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-600 opacity-20 blur-xl animate-pulse-soft"></div>
                   </div>

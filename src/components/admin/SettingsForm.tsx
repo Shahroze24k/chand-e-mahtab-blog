@@ -152,7 +152,7 @@ export default function SettingsForm({ siteMeta }: SettingsFormProps) {
                   borderColor: 'rgba(11, 93, 30, 0.2)',
                   '--tw-ring-color': '#0B5D1E'
                 } as React.CSSProperties}
-                placeholder="contact@example.com"
+                placeholder="contact@chand-e-mahtab.com"
               />
             </div>
 
@@ -207,7 +207,7 @@ export default function SettingsForm({ siteMeta }: SettingsFormProps) {
                   borderColor: 'rgba(11, 93, 30, 0.2)',
                   '--tw-ring-color': '#0B5D1E'
                 } as React.CSSProperties}
-                placeholder="https://facebook.com/yourpage"
+                placeholder="https://facebook.com/chand.e.mahtab"
               />
             </div>
 
@@ -230,7 +230,7 @@ export default function SettingsForm({ siteMeta }: SettingsFormProps) {
                   borderColor: 'rgba(11, 93, 30, 0.2)',
                   '--tw-ring-color': '#0B5D1E'
                 } as React.CSSProperties}
-                placeholder="https://twitter.com/yourusername"
+                placeholder="https://twitter.com/chand_e_mahtab"
               />
             </div>
 
@@ -253,7 +253,7 @@ export default function SettingsForm({ siteMeta }: SettingsFormProps) {
                   borderColor: 'rgba(11, 93, 30, 0.2)',
                   '--tw-ring-color': '#0B5D1E'
                 } as React.CSSProperties}
-                placeholder="https://instagram.com/yourusername"
+                placeholder="https://instagram.com/chand.e.mahtab"
               />
             </div>
 
@@ -276,7 +276,7 @@ export default function SettingsForm({ siteMeta }: SettingsFormProps) {
                   borderColor: 'rgba(11, 93, 30, 0.2)',
                   '--tw-ring-color': '#0B5D1E'
                 } as React.CSSProperties}
-                placeholder="https://linkedin.com/in/yourprofile"
+                placeholder="https://linkedin.com/company/chand-e-mahtab"
               />
             </div>
 
@@ -299,7 +299,7 @@ export default function SettingsForm({ siteMeta }: SettingsFormProps) {
                   borderColor: 'rgba(11, 93, 30, 0.2)',
                   '--tw-ring-color': '#0B5D1E'
                 } as React.CSSProperties}
-                placeholder="https://youtube.com/yourchannel"
+                placeholder="https://youtube.com/@chand-e-mahtab"
               />
             </div>
           </div>
