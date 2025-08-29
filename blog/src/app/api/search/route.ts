@@ -21,37 +21,31 @@ export async function GET(request: NextRequest) {
           {
             titleEn: {
               contains: query,
-              mode: 'insensitive',
             },
           },
           {
             titleUr: {
               contains: query,
-              mode: 'insensitive',
             },
           },
           {
             summaryEn: {
               contains: query,
-              mode: 'insensitive',
             },
           },
           {
             summaryUr: {
               contains: query,
-              mode: 'insensitive',
             },
           },
           {
             content: {
               contains: query,
-              mode: 'insensitive',
             },
           },
           {
             tags: {
               contains: query,
-              mode: 'insensitive',
             },
           },
         ],
