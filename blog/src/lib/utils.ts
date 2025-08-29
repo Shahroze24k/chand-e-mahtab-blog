@@ -45,8 +45,7 @@ export function slugify(text: string): string {
     .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
 }
 
-// Alias for slugify to match API usage
-export const generateSlug = slugify;
+
 
 export function isValidEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
