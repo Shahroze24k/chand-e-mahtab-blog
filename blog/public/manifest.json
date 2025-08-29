@@ -1,0 +1,32 @@
+{
+  "name": "Chand-e-Mahtab",
+  "short_name": "چاند مہتاب",
+  "description": "Moonlight of knowledge and youth - A bilingual blog sharing insights in English and Urdu",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAFBF8",
+  "theme_color": "#0B5D1E",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32 48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["education", "lifestyle", "news"],
+  "lang": "en-US",
+  "dir": "ltr"
+}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <pattern id="diags" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+      <rect width="20" height="20" fill="#F6F3EB"/>
+      <rect x="0" y="0" width="3" height="20" fill="#0B5D3E" opacity="0.06"/>
+      <rect x="10" y="0" width="1.5" height="20" fill="#177F5B" opacity="0.05"/>
+    </pattern>
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="48%">
+      <stop offset="0%" stop-color="#F2D37A" stop-opacity="0.6"/>
+      <stop offset="60%" stop-color="#E2B23A" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#F6F3EB" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#diags)"/>
+  <rect width="1600" height="900" fill="url(#centerGlow)"/>
+  <!-- fine border -->
+  <rect x="24" y="24" width="1552" height="852" fill="none" stroke="#0B5D3E" stroke-opacity="0.12" stroke-width="2"/>
+</svg>

@@ -1,0 +1,16 @@
+@echo off
+echo Starting Chand-e-Mahtab Blog Server...
+echo.
+echo Changing to blog directory...
+cd /d "%~dp0"
+echo.
+echo Setting environment variables...
+set DATABASE_URL=file:./dev.db
+echo DATABASE_URL set to: %DATABASE_URL%
+echo.
+echo Installing dependencies if needed...
+call npm install
+echo.
+echo Starting development server...
+call npm run dev
+pause
