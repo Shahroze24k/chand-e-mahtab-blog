@@ -29,6 +29,7 @@ interface SearchResponse {
   query: string;
   results: SearchResult[];
   count: number;
+  error?: string;
 }
 
 function SearchResults() {
