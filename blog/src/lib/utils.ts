@@ -109,3 +109,8 @@ export function processPostContent(content: string): string {
   }
   return content;
 }
+
+// Export generateSlug as an alias for slugify for backward compatibility
+export function generateSlug(text: string): string {
+  return slugify(text);
+}
