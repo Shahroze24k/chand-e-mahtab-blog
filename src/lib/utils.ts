@@ -69,8 +69,6 @@ export function parseMarkdown(content: string): string {
   marked.setOptions({
     breaks: true, // Convert line breaks to <br>
     gfm: true, // Enable GitHub Flavored Markdown
-    headerIds: false, // Disable header IDs for security
-    mangle: false, // Don't mangle email addresses
   });
   
   return marked(content) as string;
