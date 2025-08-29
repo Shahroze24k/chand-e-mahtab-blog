@@ -240,7 +240,7 @@ export default function ShareButtons({ title, summary, className = '' }: ShareBu
       </div>
 
       {/* Native Share Button (for mobile) */}
-      {typeof navigator !== 'undefined' && navigator.share && (
+      {typeof navigator !== 'undefined' && 'share' in navigator && (
         <div className="mt-4">
           <button
             onClick={() => handleShare()}
