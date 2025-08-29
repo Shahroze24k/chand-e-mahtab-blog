@@ -35,7 +35,7 @@ export default function AdminHeader() {
           <div className="flex items-center space-x-4">
             <Link href="/admin" className="flex items-center space-x-3">
               <Image
-                src="/logo.svg"
+                src="/cemlogo.svg"
                 alt="Chand-e-Mahtab Logo"
                 width={32}
                 height={32}

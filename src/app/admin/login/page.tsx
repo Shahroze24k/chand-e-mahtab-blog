@@ -47,7 +47,7 @@ export default function AdminLoginPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-block">
             <Image
-              src="/logo.svg"
+              src="/cemlogo.svg"
               alt="Chand-e-Mahtab Logo"
               width={80}
               height={80}

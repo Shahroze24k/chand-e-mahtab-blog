@@ -43,7 +43,7 @@ Founded with the vision of bridging traditions and modernity, we share insights 
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="max-w-4xl mx-auto">
               <Image
-                src="/logo.svg"
+                src="/cemlogo.svg"
                 alt="Chand-e-Mahtab Logo"
                 width={120}
                 height={120}

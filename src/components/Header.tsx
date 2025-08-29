@@ -17,7 +17,7 @@ export default function Header() {
           <Link href="/" className="flex items-center space-x-3 hover-scale group">
             <div className="relative">
               <Image
-                src="/logo.svg"
+                src="/cemlogo.svg"
                 alt="Chand-e-Mahtab Logo"
                 width={44}
                 height={44}

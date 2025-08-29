@@ -38,7 +38,7 @@ export default async function Home() {
                 <div className="animate-fade-in-up">
                   <div className="relative inline-block mb-8">
                     <Image
-                      src="/logo.svg"
+                      src="/cemlogo.svg"
                       alt="Chand-e-Mahtab Logo"
                       width={140}
                       height={140}
