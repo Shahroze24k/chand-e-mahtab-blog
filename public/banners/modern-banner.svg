@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300">
+  <!-- Clean modern background -->
+  <rect width="800" height="300" fill="#FAFBF8"/>
+  
+  <!-- Geometric shapes -->
+  <defs>
+    <linearGradient id="modernGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0B5D1E;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#F4C430;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Abstract geometric composition -->
+  <polygon points="0,150 200,50 400,100 600,80 800,120 800,300 0,300" 
+           fill="url(#modernGrad)" opacity="0.3"/>
+  
+  <!-- Modern hexagonal pattern -->
+  <g transform="translate(100, 80)" stroke="#0B5D1E" stroke-width="2" fill="none" opacity="0.4">
+    <polygon points="30,0 45,26 30,52 0,52 -15,26 0,0"/>
+    <polygon points="90,26 105,52 90,78 60,78 45,52 60,26"/>
+    <polygon points="150,0 165,26 150,52 120,52 105,26 120,0"/>
+  </g>
+  
+  <!-- Tech-inspired elements -->
+  <g transform="translate(500, 150)">
+    <!-- Circuit-like connections -->
+    <path d="M0 0 L40 0 L40 -20 L80 -20" stroke="#F4C430" stroke-width="3" fill="none"/>
+    <path d="M0 0 L0 20 L60 20 L60 40 L100 40" stroke="#F4C430" stroke-width="3" fill="none"/>
+    <circle cx="0" cy="0" r="4" fill="#F4C430"/>
+    <circle cx="40" cy="-20" r="3" fill="#F4C430"/>
+    <circle cx="60" cy="20" r="3" fill="#F4C430"/>
+    <circle cx="100" cy="40" r="4" fill="#F4C430"/>
+  </g>
+  
+  <!-- Modern typography elements -->
+  <g fill="#14221C" opacity="0.2">
+    <rect x="150" y="180" width="150" height="4"/>
+    <rect x="150" y="200" width="200" height="4"/>
+    <rect x="150" y="220" width="120" height="4"/>
+    <rect x="400" y="180" width="180" height="4"/>
+    <rect x="400" y="200" width="160" height="4"/>
+  </g>
+  
+  <!-- Dynamic accent shapes -->
+  <circle cx="650" cy="100" r="25" fill="#F4C430" opacity="0.6"/>
+  <rect x="700" y="160" width="30" height="30" fill="#0B5D1E" opacity="0.5" transform="rotate(45 715 175)"/>
+  
+  <!-- Flowing modern lines -->
+  <path d="M50 250 Q200 200 350 230 Q500 260 650 220 Q750 190 800 210" 
+        stroke="#0B5D1E" stroke-width="2" fill="none" opacity="0.6"/>
+</svg>

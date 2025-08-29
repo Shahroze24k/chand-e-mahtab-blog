@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Chand-e-Mahtab Blog
+
+**"Moonlight of knowledge and youth"** - A production-ready, mobile-first bilingual blog supporting English and Urdu content.
+
+## Features
+
+- ✨ **Bilingual Support**: English and Urdu (RTL) with proper typography
+- 📱 **Mobile-First**: Responsive design optimized for all devices
+- 🔍 **Search**: MiniSearch-powered instant search
+- 💬 **Comments**: Built-in comment system with anti-spam protection
+- 🛡️ **Security**: Simple admin authentication, CSRF protection
+- 🚀 **Performance**: Next.js App Router, optimized images
+- 📈 **SEO**: Structured data, sitemaps, RSS feeds
+- ♿ **Accessibility**: WCAG AA compliant
+
+## Tech Stack
+
+- **Framework**: Next.js 15 (App Router) + TypeScript
+- **Styling**: Tailwind CSS v4
+- **Database**: Prisma + SQLite (dev) / PostgreSQL (production)
+- **Fonts**: Playfair Display (English), Noto Nastaliq Urdu
+- **SEO**: next-seo, structured data, sitemaps
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+1. Clone and navigate to the project:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd blog
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up environment variables:
+```bash
+cp env.example .env.local
+```
+Edit `.env.local` with your configuration.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Initialize the database:
+```bash
+npm run db:push
+npm run seed
+```
 
-## Learn More
+5. Start the development server:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open [http://localhost:3000](http://localhost:3000) to view the blog.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Available Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run db:push` - Push database schema
+- `npm run seed` - Seed database with sample data
 
-## Deploy on Vercel
+## Admin Access
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Access the admin panel at `/admin/login` with the password set in your environment variables.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+
+```
+src/
+├── app/                 # Next.js App Router pages
+├── components/          # Reusable React components
+├── lib/                # Utilities and configurations
+└── types/              # TypeScript type definitions
+```
+
+## Environment Variables
+
+See `env.example` for all required environment variables.
+
+## License
+
+Private project - All rights reserved.

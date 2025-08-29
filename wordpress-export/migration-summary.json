@@ -1,0 +1,33 @@
+{
+  "export_date": "2025-08-29T08:53:30.836Z",
+  "total_posts": 5,
+  "published_posts": 5,
+  "draft_posts": 0,
+  "total_comments": 5,
+  "approved_comments": 4,
+  "pending_comments": 1,
+  "bilingual_posts": 5,
+  "media_files": [
+    "/images/welcome-cover.svg",
+    "/images/rumi-cover.svg",
+    "/images/welcome-cover.svg",
+    "/images/welcome-cover.svg"
+  ],
+  "tags": [
+    "welcome",
+    "introduction",
+    "bilingual",
+    "rumi",
+    "sufism",
+    "poetry",
+    "wisdom",
+    "pakistan",
+    "youth",
+    "moonlight",
+    "inspiration",
+    "dreams",
+    "custom",
+    "example",
+    "test"
+  ]
+}
