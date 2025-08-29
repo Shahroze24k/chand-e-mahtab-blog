@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="duo" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0B5D3E"/>
+      <stop offset="100%" stop-color="#177F5B"/>
+    </linearGradient>
+    <radialGradient id="arcGlow" cx="20%" cy="80%" r="60%">
+      <stop offset="0%" stop-color="#F2D37A" stop-opacity="0.7"/>
+      <stop offset="60%" stop-color="#E2B23A" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#F6F3EB" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#F6F3EB"/>
+  <path d="M0,0 H1600 V900 H0 Z M0,0 C600,140 1100,160 1600,0 V900 C1000,740 560,720 0,900 Z"
+        fill="url(#duo)" fill-rule="evenodd" opacity="0.95"/>
+  <path d="M0,760 C300,680 620,660 980,700 C1220,726 1420,748 1600,760 L1600,900 L0,900 Z"
+        fill="#E2B23A" opacity="0.12"/>
+  <rect width="1600" height="900" fill="url(#arcGlow)"/>
+</svg>

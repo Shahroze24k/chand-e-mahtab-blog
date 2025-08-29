@@ -1,0 +1,146 @@
+{
+  "defaultBanners": [
+    {
+      "id": "nature",
+      "name": "Nature & Environment",
+      "nameUrdu": "قدرت و ماحولیات",
+      "description": "Soft luminous field with gentle glow and natural waves",
+      "descriptionUrdu": "نرم روشن میدان نازک چمک اور قدرتی لہروں کے ساتھ",
+      "path": "/banners/nature-banner.svg",
+      "tags": ["nature", "environment", "organic", "peaceful"],
+      "suitable_for": ["environmental posts", "nature content", "peaceful topics"]
+    },
+    {
+      "id": "landscape",
+      "name": "Landscape & Scenery",
+      "nameUrdu": "مناظر قدرت",
+      "description": "Rolling valley waves with moonlight and scenic gradients",
+      "descriptionUrdu": "لہراتی وادی کی لہریں چاندنی اور خوبصورت گریڈینٹس کے ساتھ",
+      "path": "/banners/landscape-banner.svg",
+      "tags": ["landscape", "scenery", "travel", "natural"],
+      "suitable_for": ["travel posts", "scenic content", "geographical topics"]
+    },
+    {
+      "id": "geometric",
+      "name": "Geometric & Patterns",
+      "nameUrdu": "ہندسی نمونے",
+      "description": "Diagonal weave pattern with subtle geometric elements",
+      "descriptionUrdu": "ترچھے بُنے ہوئے نمونے نازک ہندسی عناصر کے ساتھ",
+      "path": "/banners/geometric-banner.svg",
+      "tags": ["geometric", "patterns", "abstract", "design"],
+      "suitable_for": ["design posts", "abstract topics", "mathematical content"]
+    },
+    {
+      "id": "celestial",
+      "name": "Celestial & Stars",
+      "nameUrdu": "آسمانی و ستارے",
+      "description": "Stardust grid pattern with celestial glow effects",
+      "descriptionUrdu": "ستاروں کا نمونہ آسمانی چمک کے اثرات کے ساتھ",
+      "path": "/banners/celestial-banner.svg",
+      "tags": ["celestial", "stars", "astronomy", "cosmic"],
+      "suitable_for": ["astronomy posts", "cosmic topics", "spiritual content"]
+    },
+    {
+      "id": "artistic",
+      "name": "Artistic & Creative",
+      "nameUrdu": "فنکارانہ و تخلیقی",
+      "description": "Flowing artistic arcs with creative circular accents",
+      "descriptionUrdu": "بہتے فنکارانہ محراب تخلیقی دائروی لہجے کے ساتھ",
+      "path": "/banners/artistic-banner.svg",
+      "tags": ["artistic", "creative", "design", "expressive"],
+      "suitable_for": ["art posts", "creative content", "design discussions"]
+    },
+    {
+      "id": "minimal",
+      "name": "Minimal & Clean",
+      "nameUrdu": "سادہ و صاف",
+      "description": "Clean duotone split design with minimal aesthetic",
+      "descriptionUrdu": "صاف دو رنگی تقسیم ڈیزائن کم سے کم جمالیات کے ساتھ",
+      "path": "/banners/minimal-banner.svg",
+      "tags": ["minimal", "clean", "simple", "elegant"],
+      "suitable_for": ["minimalist content", "clean design topics", "simple discussions"]
+    },
+    {
+      "id": "knowledge",
+      "name": "Knowledge & Learning",
+      "nameUrdu": "علم و تعلیم",
+      "description": "Open books, wisdom symbols, and learning elements",
+      "descriptionUrdu": "کھلی کتابیں، علم کی علامات، اور تعلیمی عناصر",
+      "path": "/banners/knowledge-banner.svg",
+      "tags": ["education", "learning", "books", "wisdom"],
+      "suitable_for": ["educational posts", "tutorials", "academic content"]
+    },
+    {
+      "id": "wisdom",
+      "name": "Wisdom & Reflection",
+      "nameUrdu": "حکمت و فکر",
+      "description": "Tree of wisdom, contemplative elements, and natural growth",
+      "descriptionUrdu": "حکمت کا درخت، غور و فکر کے عناصر، اور قدرتی نشوونما",
+      "path": "/banners/wisdom-banner.svg",
+      "tags": ["wisdom", "reflection", "nature", "growth"],
+      "suitable_for": ["philosophical posts", "life lessons", "personal growth"]
+    },
+    {
+      "id": "culture",
+      "name": "Culture & Tradition",
+      "nameUrdu": "ثقافت و روایت",
+      "description": "Islamic geometric patterns, arch designs, and cultural motifs",
+      "descriptionUrdu": "اسلامی ہندسی نمونے، محرابی ڈیزائن، اور ثقافتی نقوش",
+      "path": "/banners/culture-banner.svg",
+      "tags": ["culture", "tradition", "islamic", "heritage"],
+      "suitable_for": ["cultural posts", "religious content", "tradition discussions"]
+    },
+    {
+      "id": "youth",
+      "name": "Youth & Energy",
+      "nameUrdu": "نوجوانی و توانائی",
+      "description": "Dynamic gradients, rising elements, and energetic design",
+      "descriptionUrdu": "متحرک گریڈیئنٹس، ابھرتے عناصر، اور پرجوش ڈیزائن",
+      "path": "/banners/youth-banner.svg",
+      "tags": ["youth", "energy", "motivation", "future"],
+      "suitable_for": ["youth-focused content", "motivational posts", "future topics"]
+    },
+    {
+      "id": "heritage",
+      "name": "Heritage & History",
+      "nameUrdu": "ورثہ و تاریخ",
+      "description": "Classical columns, manuscript borders, and historical elements",
+      "descriptionUrdu": "کلاسیکی ستون، مخطوطہ کی حاشیے، اور تاریخی عناصر",
+      "path": "/banners/heritage-banner.svg",
+      "tags": ["heritage", "history", "classical", "manuscript"],
+      "suitable_for": ["historical posts", "heritage discussions", "classical content"]
+    },
+    {
+      "id": "modern",
+      "name": "Modern & Contemporary",
+      "nameUrdu": "جدید و عصری",
+      "description": "Clean geometric shapes, tech elements, and contemporary design",
+      "descriptionUrdu": "صاف ہندسی شکلیں، ٹیک عناصر، اور عصری ڈیزائن",
+      "path": "/banners/modern-banner.svg",
+      "tags": ["modern", "technology", "contemporary", "innovation"],
+      "suitable_for": ["tech posts", "modern topics", "innovation discussions"]
+    }
+  ],
+  "categories": [
+    {
+      "name": "Educational",
+      "nameUrdu": "تعلیمی",
+      "banners": ["knowledge", "wisdom", "celestial"]
+    },
+    {
+      "name": "Cultural",
+      "nameUrdu": "ثقافتی", 
+      "banners": ["culture", "heritage", "artistic"]
+    },
+    {
+      "name": "Contemporary",
+      "nameUrdu": "عصری",
+      "banners": ["youth", "modern", "minimal", "geometric"]
+    },
+    {
+      "name": "Natural",
+      "nameUrdu": "قدرتی",
+      "banners": ["nature", "landscape"]
+    }
+  ]
+}

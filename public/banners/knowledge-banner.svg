@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="knowledgeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0B5D1E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#14221C;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="300" fill="url(#knowledgeGrad)"/>
+  
+  <!-- Decorative moon in background -->
+  <circle cx="650" cy="80" r="60" fill="#F4C430" opacity="0.3"/>
+  
+  <!-- Book and knowledge elements -->
+  <g transform="translate(100, 80)">
+    <!-- Open book -->
+    <path d="M0 60 L80 40 L80 120 L0 140 Z" fill="#FAFBF8" opacity="0.9"/>
+    <path d="M80 40 L160 60 L160 140 L80 120 Z" fill="#FAFBF8" opacity="0.7"/>
+    <!-- Book spine -->
+    <rect x="78" y="40" width="4" height="80" fill="#F4C430"/>
+    <!-- Text lines -->
+    <rect x="10" y="70" width="60" height="2" fill="#14221C" opacity="0.3"/>
+    <rect x="10" y="80" width="50" height="2" fill="#14221C" opacity="0.3"/>
+    <rect x="10" y="90" width="55" height="2" fill="#14221C" opacity="0.3"/>
+    <rect x="90" y="70" width="60" height="2" fill="#14221C" opacity="0.3"/>
+    <rect x="90" y="80" width="50" height="2" fill="#14221C" opacity="0.3"/>
+    <rect x="90" y="90" width="55" height="2" fill="#14221C" opacity="0.3"/>
+  </g>
+  
+  <!-- Floating knowledge symbols -->
+  <g fill="#F4C430" opacity="0.6">
+    <circle cx="300" cy="100" r="3"/>
+    <circle cx="350" cy="140" r="2"/>
+    <circle cx="420" cy="120" r="2.5"/>
+    <circle cx="480" cy="160" r="2"/>
+    <circle cx="550" cy="130" r="3"/>
+  </g>
+  
+  <!-- Decorative Arabic/Urdu calligraphy style elements -->
+  <g stroke="#F4C430" stroke-width="2" fill="none" opacity="0.4">
+    <path d="M200 200 Q220 180 240 200 Q260 220 280 200"/>
+    <path d="M320 220 Q340 200 360 220 Q380 240 400 220"/>
+  </g>
+</svg>
