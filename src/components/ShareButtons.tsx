@@ -50,8 +50,18 @@ export default function ShareButtons({ title, summary, className = '' }: ShareBu
       // Debug log for troubleshooting
       console.log('Facebook sharing URL:', facebookUrl);
       console.log('Current URL:', absoluteUrl);
+      console.log('Is localhost:', isLocalhost);
       
-      // Open Facebook sharing dialog
+      // Show informative message for localhost
+      if (isLocalhost) {
+        const message = `🌐 Development Mode Detected!\n\nFacebook can't preview localhost URLs. In development, this will share your GitHub repository instead.\n\n📝 Post Title: "${title}"\n🔗 GitHub: https://github.com/Shahroze24k/chand-e-mahtab-blog\n\n✅ This will work perfectly once deployed to production!`;
+        if (confirm(message + '\n\nProceed with GitHub repository sharing?')) {
+          window.open(facebookUrl, 'facebook-share-dialog', 'width=626,height=436');
+        }
+        return;
+      }
+      
+      // Open Facebook sharing dialog for production
       const popup = window.open(
         facebookUrl, 
         'facebook-share-dialog', 
@@ -59,14 +69,31 @@ export default function ShareButtons({ title, summary, className = '' }: ShareBu
         (screen.width / 2 - 313) + ',top=' + (screen.height / 2 - 218)
       );
       
-      // Focus the popup if it opened successfully
       if (popup) {
         popup.focus();
       } else {
-        // Fallback: try to open in same window if popup blocked
         alert('Please allow popups for this site to share on Facebook, or copy the link manually.');
         console.error('Facebook sharing popup was blocked');
       }
+      return;
+    }
+
+    // Special handling for LinkedIn
+    if (platform === 'linkedin') {
+      const linkedinUrl = shareUrls.linkedin;
+      
+      console.log('LinkedIn sharing URL:', linkedinUrl);
+      console.log('Is localhost:', isLocalhost);
+      
+      if (isLocalhost) {
+        const message = `🌐 Development Mode Detected!\n\nLinkedIn can't preview localhost URLs. In development, this will share your GitHub repository instead.\n\n📝 Post: "${title}"\n🔗 GitHub: https://github.com/Shahroze24k/chand-e-mahtab-blog\n\n✅ This will work perfectly once deployed!`;
+        if (confirm(message + '\n\nProceed with GitHub repository sharing?')) {
+          window.open(linkedinUrl, 'linkedin-share-dialog', 'width=520,height=570');
+        }
+        return;
+      }
+      
+      window.open(linkedinUrl, 'linkedin-share-dialog', 'width=520,height=570');
       return;
     }
   };
@@ -82,13 +109,19 @@ export default function ShareButtons({ title, summary, className = '' }: ShareBu
 
   const absoluteUrl = getAbsoluteUrl(currentUrl);
 
+  // For localhost/development, create a message that users can copy-paste
+  const isLocalhost = absoluteUrl.includes('localhost') || absoluteUrl.includes('127.0.0.1') || absoluteUrl.includes('192.168.');
+  
   const shareUrls = {
     twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(absoluteUrl)}`,
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(absoluteUrl)}&quote=${encodeURIComponent(title)}`,
-    facebookDialog: `https://www.facebook.com/dialog/share?app_id=YOUR_APP_ID&href=${encodeURIComponent(absoluteUrl)}&quote=${encodeURIComponent(title)}`,
-    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(absoluteUrl)}`,
-    whatsapp: `https://wa.me/?text=${encodeURIComponent(`${title}\n\n${absoluteUrl}`)}`,
-    telegram: `https://t.me/share/url?url=${encodeURIComponent(absoluteUrl)}&text=${encodeURIComponent(title)}`
+    facebook: isLocalhost 
+      ? `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://github.com/Shahroze24k/chand-e-mahtab-blog')}&quote=${encodeURIComponent(`${title} - Check out this bilingual blog post!`)}`
+      : `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(absoluteUrl)}&quote=${encodeURIComponent(title)}`,
+    linkedin: isLocalhost
+      ? `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://github.com/Shahroze24k/chand-e-mahtab-blog')}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(`Check out this bilingual blog: ${title}`)}`
+      : `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(absoluteUrl)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(summary || title)}`,
+    whatsapp: `https://wa.me/?text=${encodeURIComponent(`${title}\n\n${isLocalhost ? 'Check out this bilingual blog: https://github.com/Shahroze24k/chand-e-mahtab-blog' : absoluteUrl}`)}`,
+    telegram: `https://t.me/share/url?url=${encodeURIComponent(isLocalhost ? 'https://github.com/Shahroze24k/chand-e-mahtab-blog' : absoluteUrl)}&text=${encodeURIComponent(title)}`
   };
 
   if (!currentUrl) {
@@ -107,6 +140,18 @@ export default function ShareButtons({ title, summary, className = '' }: ShareBu
       <h4 className="font-urdu text-lg mb-4 rtl" style={{ color: 'rgba(20, 34, 28, 0.8)' }}>
         اس مضمون کو شیئر کریں
       </h4>
+      
+      {/* Development notice */}
+      {isLocalhost && (
+        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm">
+          <p className="text-blue-700 mb-1">
+            🚧 <strong>Development Mode:</strong> Facebook & LinkedIn can't preview localhost URLs
+          </p>
+          <p className="text-blue-600">
+            These will share your GitHub repository instead. Works perfectly in production!
+          </p>
+        </div>
+      )}
       
       <div className="flex flex-wrap justify-center gap-3">
         {/* Twitter */}
@@ -153,10 +198,8 @@ export default function ShareButtons({ title, summary, className = '' }: ShareBu
         </a>
 
         {/* LinkedIn */}
-        <a
-          href={shareUrls.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          onClick={() => handleShare('linkedin')}
           className="flex items-center px-4 py-2 rounded-lg hover:opacity-80 transition-opacity"
           style={{ backgroundColor: '#0077B5', color: 'white' }}
           aria-label="Share on LinkedIn"
@@ -165,7 +208,7 @@ export default function ShareButtons({ title, summary, className = '' }: ShareBu
             <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
           </svg>
           LinkedIn
-        </a>
+        </button>
 
         {/* Telegram */}
         <a
