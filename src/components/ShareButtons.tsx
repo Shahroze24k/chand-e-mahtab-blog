@@ -42,14 +42,53 @@ export default function ShareButtons({ title, summary, className = '' }: ShareBu
         console.error('Failed to copy to clipboard');
       }
     }
+
+    // Special handling for Facebook
+    if (platform === 'facebook') {
+      const facebookUrl = shareUrls.facebook;
+      
+      // Debug log for troubleshooting
+      console.log('Facebook sharing URL:', facebookUrl);
+      console.log('Current URL:', absoluteUrl);
+      
+      // Open Facebook sharing dialog
+      const popup = window.open(
+        facebookUrl, 
+        'facebook-share-dialog', 
+        'width=626,height=436,toolbar=0,menubar=0,location=0,status=0,scrollbars=0,resizable=0,left=' + 
+        (screen.width / 2 - 313) + ',top=' + (screen.height / 2 - 218)
+      );
+      
+      // Focus the popup if it opened successfully
+      if (popup) {
+        popup.focus();
+      } else {
+        // Fallback: try to open in same window if popup blocked
+        alert('Please allow popups for this site to share on Facebook, or copy the link manually.');
+        console.error('Facebook sharing popup was blocked');
+      }
+      return;
+    }
   };
 
+  // Create absolute URL for better sharing compatibility
+  const getAbsoluteUrl = (url: string) => {
+    if (url.startsWith('http')) return url;
+    if (typeof window !== 'undefined') {
+      return `${window.location.protocol}//${window.location.host}${url}`;
+    }
+    return url;
+  };
+
+  const absoluteUrl = getAbsoluteUrl(currentUrl);
+
   const shareUrls = {
-    twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(currentUrl)}`,
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`,
-    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`,
-    whatsapp: `https://wa.me/?text=${encodeURIComponent(`${title}\n\n${currentUrl}`)}`,
-    telegram: `https://t.me/share/url?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(title)}`
+    twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(absoluteUrl)}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(absoluteUrl)}&quote=${encodeURIComponent(title)}`,
+    facebookDialog: `https://www.facebook.com/dialog/share?app_id=YOUR_APP_ID&href=${encodeURIComponent(absoluteUrl)}&quote=${encodeURIComponent(title)}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(absoluteUrl)}`,
+    whatsapp: `https://wa.me/?text=${encodeURIComponent(`${title}\n\n${absoluteUrl}`)}`,
+    telegram: `https://t.me/share/url?url=${encodeURIComponent(absoluteUrl)}&text=${encodeURIComponent(title)}`
   };
 
   if (!currentUrl) {
@@ -86,10 +125,8 @@ export default function ShareButtons({ title, summary, className = '' }: ShareBu
         </a>
 
         {/* Facebook */}
-        <a
-          href={shareUrls.facebook}
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          onClick={() => handleShare('facebook')}
           className="flex items-center px-4 py-2 rounded-lg hover:opacity-80 transition-opacity"
           style={{ backgroundColor: '#4267B2', color: 'white' }}
           aria-label="Share on Facebook"
@@ -98,7 +135,7 @@ export default function ShareButtons({ title, summary, className = '' }: ShareBu
             <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
           </svg>
           Facebook
-        </a>
+        </button>
 
         {/* WhatsApp */}
         <a
