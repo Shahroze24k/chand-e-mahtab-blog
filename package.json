@@ -1,10 +1,14 @@
 {
-  "name": "blog",
-  "version": "0.1.0",
+  "name": "chand-e-mahtab-blog",
+  "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "db:generate": "prisma generate",
@@ -12,7 +16,11 @@
     "db:studio": "prisma studio",
     "db:seed": "tsx prisma/seed.ts",
     "seed": "npm run db:seed",
-    "postinstall": "prisma generate"
+    "migrate-to-mysql": "node migrate-to-mysql.js",
+    "deploy:mysql": "npm run db:generate && npm run db:push && npm run seed && npm run build",
+    "postinstall": "prisma generate",
+    "deploy": "npm run postinstall && npm run build",
+    "db:deploy": "prisma db push && npm run seed"
   },
   "dependencies": {
     "@prisma/client": "^6.14.0",
@@ -33,11 +41,13 @@
     "@types/multer": "^2.0.0",
     "bcryptjs": "^3.0.2",
     "clsx": "^2.1.1",
+    "groq-sdk": "^0.10.0",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "mammoth": "^1.10.0",
     "marked": "^16.2.0",
     "multer": "^2.0.2",
+    "mysql2": "^3.6.0",
     "next": "15.5.0",
     "next-seo": "^6.8.0",
     "pdf-parse": "^1.1.1",
@@ -56,6 +66,7 @@
     "eslint-config-next": "15.5.0",
     "tailwindcss": "^4",
     "tsx": "^4.20.4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@types/pdf-parse": "^1.1.5"
   }
 }

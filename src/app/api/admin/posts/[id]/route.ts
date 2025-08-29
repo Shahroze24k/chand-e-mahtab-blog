@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isAuthenticated } from '@/lib/auth';
 import { prisma } from '@/lib/db';
-import { generateSlug } from '@/lib/utils';
+import { slugify } from '@/lib/utils';
 
 // GET - Fetch a single post by ID
 export async function GET(
@@ -96,7 +96,7 @@ export async function PUT(
     // Generate new slug if title changed
     let newSlug = existingPost.slug;
     if (titleEn.trim() !== existingPost.titleEn) {
-      newSlug = generateSlug(titleEn);
+      newSlug = slugify(titleEn);
       
       // Check if new slug already exists (excluding current post)
       const existingSlug = await prisma.post.findFirst({
