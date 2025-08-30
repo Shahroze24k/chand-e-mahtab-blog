@@ -15,7 +15,7 @@ export default function AIContentAssistant({
 }: AIContentAssistantProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [activeTab, setActiveTab] = useState<'suggestions' | 'content-translate'>('suggestions');
+  const [activeTab, setActiveTab] = useState<'suggestions'>('suggestions');
   const [successMessage, setSuccessMessage] = useState<string>('');
 
   const generateSuggestions = async () => {
@@ -46,50 +46,7 @@ export default function AIContentAssistant({
 
 
 
-  const addUrduTranslation = async () => {
-    if (!content.trim()) {
-      alert('Please add some content first');
-      return;
-    }
-    
-    console.log('Starting content translation with content length:', content.length);
-    console.log('onContentUpdate function available:', !!onContentUpdate);
-    
 
-    
-    setIsLoading(true);
-    try {
-      const response = await fetch('/api/ai/translate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: content, targetLanguage: 'urdu' }),
-      });
-      
-      const data = await response.json();
-      console.log('Content translation response:', data);
-      if (data.success && onContentUpdate) {
-        // Add Urdu translation to the end of the content
-        const separator = '\n\n---\n\n';
-        const urduHeader = '<h2 class="font-urdu text-right">اردو ترجمہ</h2>\n\n';
-        const urduContent = `<div class="font-urdu text-right" dir="rtl">${data.translatedText}</div>`;
-        const updatedContent = content + separator + urduHeader + urduContent;
-        console.log('Calling onContentUpdate with updated content length:', updatedContent.length);
-        
-        // Direct callback execution
-        onContentUpdate(updatedContent);
-        setSuccessMessage('Urdu translation added to the end of your content! Scroll down in the editor to see it.');
-        setTimeout(() => setSuccessMessage(''), 5000);
-      } else {
-        console.error('Content translation failed:', data);
-        alert(`Failed to translate: ${data.error || 'Unknown error'}`);
-      }
-    } catch (error) {
-      console.error('Failed to translate:', error);
-      alert('Network error: Could not connect to AI service');
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div className={`ai-assistant bg-white rounded-lg border shadow-sm ${className}`}>
@@ -105,8 +62,7 @@ export default function AIContentAssistant({
       {/* Tabs */}
       <div className="flex border-b">
         {[
-          { key: 'suggestions', label: '💡 Suggestions', icon: '💡' },
-          { key: 'content-translate', label: '🌐 Add Urdu Translation', icon: '🌐' }
+          { key: 'suggestions', label: '💡 Suggestions', icon: '💡' }
         ].map((tab) => (
           <button
             key={tab.key}
@@ -173,51 +129,7 @@ export default function AIContentAssistant({
 
 
 
-        {/* Content Translation Tab */}
-        {activeTab === 'content-translate' && (
-          <div>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                addUrduTranslation();
-              }}
-              disabled={isLoading || !content.trim()}
-              className="w-full mb-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {isLoading ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Translating...
-                </>
-              ) : (
-                '🌐 Add Urdu Translation to Content'
-              )}
-            </button>
 
-
-            
-            <div className="space-y-3">
-              <div className="p-3 bg-green-50 rounded-lg border-l-4 border-green-400">
-                <p className="text-sm text-gray-700">
-                  <strong>💡 How it works:</strong> This will translate your entire post content to Urdu and add it to the end of your post with proper RTL formatting.
-                </p>
-              </div>
-              {!content.trim() && (
-                <div className="p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
-                  <p className="text-sm text-gray-700">
-                    ⚠️ Please add some content to your post first before translating.
-                  </p>
-                </div>
-              )}
-              <div className="p-3 bg-purple-50 rounded-lg border-l-4 border-purple-400">
-                <p className="text-sm text-gray-700">
-                  <span className="font-urdu">✨ نتیجہ:</span> The Urdu translation will be added at the end with a "اردو ترجمہ" header and proper right-to-left formatting.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
 
         {!content.trim() && (
           <div className="text-center py-8 text-gray-500">
