@@ -30,6 +30,7 @@ export default function EditPostPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingPost, setIsLoadingPost] = useState(true);
   const [authError, setAuthError] = useState(false);
+  const [activeTab, setActiveTab] = useState<'basic' | 'content' | 'settings'>('basic');
   const [formData, setFormData] = useState({
     titleEn: '',
     titleUr: '',
@@ -123,6 +124,115 @@ export default function EditPostPage() {
     }
   };
 
+  // AI Helper Functions
+  const translateTitle = async () => {
+    if (!formData.titleEn.trim()) return;
+    
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/ai/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: formData.titleEn, targetLanguage: 'urdu' }),
+      });
+      
+      const data = await response.json();
+      if (data.success) {
+        setFormData({ ...formData, titleUr: data.translatedText });
+      } else {
+        alert(`Failed to translate: ${data.error || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Failed to translate title:', error);
+      alert('Network error: Could not connect to AI service');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const translateSummary = async () => {
+    if (!formData.summaryEn.trim()) return;
+    
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/ai/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: formData.summaryEn, targetLanguage: 'urdu' }),
+      });
+      
+      const data = await response.json();
+      if (data.success) {
+        setFormData({ ...formData, summaryUr: data.translatedText });
+      } else {
+        alert(`Failed to translate: ${data.error || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Failed to translate summary:', error);
+      alert('Network error: Could not connect to AI service');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const translateContent = async () => {
+    if (!formData.content.trim()) return;
+    
+    setIsLoading(true);
+    try {
+      // Strip HTML tags for AI processing
+      const textContent = formData.content.replace(/<[^>]*>/g, '');
+      
+      const response = await fetch('/api/ai/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: textContent, targetLanguage: 'urdu' }),
+      });
+      
+      const data = await response.json();
+      if (data.success) {
+        setUrduTranslation(data.translatedText);
+      } else {
+        alert(`Failed to translate: ${data.error || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Failed to translate content:', error);
+      alert('Network error: Could not connect to AI service');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const autoGenerateTags = async () => {
+    if (!formData.content.trim()) return;
+    
+    setIsLoading(true);
+    try {
+      // Strip HTML tags for AI processing
+      const textContent = formData.content.replace(/<[^>]*>/g, '');
+      
+      const response = await fetch('/api/ai/generate-tags', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: textContent }),
+      });
+      
+      const data = await response.json();
+      if (data.success) {
+        // Convert array to comma-separated string
+        const tagsString = Array.isArray(data.tags) ? data.tags.join(', ') : data.tags;
+        setFormData({ ...formData, tags: tagsString });
+      } else {
+        alert(`Failed to generate tags: ${data.error || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Failed to generate tags:', error);
+      alert('Network error: Could not connect to AI service');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleDelete = async () => {
     if (!confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
       return;
@@ -205,9 +315,41 @@ export default function EditPostPage() {
           </p>
         </div>
 
+        {/* Tab Navigation */}
+        <div className="mb-8">
+          <div className="border-b border-gray-200">
+            <nav className="-mb-px flex space-x-8">
+              {[
+                { key: 'basic', label: 'Basic Info', icon: '📝' },
+                { key: 'content', label: 'Content', icon: '✍️' },
+                { key: 'settings', label: 'Settings', icon: '⚙️' }
+              ].map((tab) => (
+                <button
+                  key={tab.key}
+                  type="button"
+                  onClick={() => setActiveTab(tab.key as any)}
+                  className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                    activeTab === tab.key
+                      ? 'border-green-500 text-green-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  {tab.icon} {tab.label}
+                </button>
+              ))}
+            </nav>
+          </div>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Basic Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Basic Information Tab */}
+          {activeTab === 'basic' && (
+            <div className="space-y-6">
+              <div className="bg-white rounded-lg shadow p-6">
+                <h3 className="text-lg font-semibold mb-4" style={{ color: '#14221C' }}>
+                  Basic Information
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* English Title */}
             <div className="bg-white rounded-lg shadow p-6">
               <label htmlFor="titleEn" className="block text-sm font-medium text-gray-700 mb-2">
