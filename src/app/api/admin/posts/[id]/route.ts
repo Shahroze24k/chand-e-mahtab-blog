@@ -111,6 +111,16 @@ export async function PUT(
       }
     }
 
+    // Handle tags - convert array to comma-separated string if needed
+    let tagsString = '';
+    if (tags) {
+      if (Array.isArray(tags)) {
+        tagsString = tags.join(', ');
+      } else {
+        tagsString = tags.trim();
+      }
+    }
+
     // Update the post
     const updatedPost = await prisma.post.update({
       where: { id },
@@ -121,7 +131,7 @@ export async function PUT(
         summaryEn: summaryEn?.trim() || null,
         summaryUr: summaryUr?.trim() || null,
         content: content.trim(),
-        tags: tags?.trim() || '',
+        tags: tagsString,
         published: Boolean(published),
         publishedAt: published && !existingPost.publishedAt ? new Date() : existingPost.publishedAt,
         coverImage: coverImage?.trim() || null,

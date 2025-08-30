@@ -43,6 +43,16 @@ export async function POST(request: NextRequest) {
       counter++;
     }
 
+    // Handle tags - convert array to comma-separated string if needed
+    let tagsString = '';
+    if (tags) {
+      if (Array.isArray(tags)) {
+        tagsString = tags.join(', ');
+      } else {
+        tagsString = tags;
+      }
+    }
+
     // Create the post
     const post = await prisma.post.create({
       data: {
@@ -52,7 +62,7 @@ export async function POST(request: NextRequest) {
         summaryEn: summaryEn || null,
         summaryUr: summaryUr || null,
         content,
-        tags: tags || '',
+        tags: tagsString,
         published: Boolean(published),
         publishedAt: published ? new Date() : null,
         coverImage: coverImage || null,
