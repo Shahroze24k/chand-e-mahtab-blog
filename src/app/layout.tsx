@@ -16,8 +16,20 @@ const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
 });
 
 export const metadata: Metadata = {
-  title: "Chand-e-Mahtab",
-  description: "Moonlight of knowledge and youth - A bilingual blog sharing insights in English and Urdu",
+  title: "Chand-e-Mahtab | چاند مہتاب",
+  description: "Moonlight of knowledge and youth - A bilingual blog sharing insights in English and Urdu | علم اور نوجوانوں کا چاند",
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/icon.svg', type: 'image/svg+xml' }
+    ],
+    apple: '/apple-touch-icon.svg',
+  },
+  openGraph: {
+    title: "Chand-e-Mahtab | چاند مہتاب",
+    description: "Moonlight of knowledge and youth - A bilingual blog sharing insights in English and Urdu",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

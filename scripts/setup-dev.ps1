@@ -4,8 +4,11 @@
 
 Write-Host "🔧 Setting up development environment..." -ForegroundColor Cyan
 
-# Copy development schema
+# Backup production schema and copy development schema
 Write-Host "📋 Configuring development database schema..." -ForegroundColor Yellow
+if (!(Test-Path "prisma/schema.prod.backup")) {
+    Copy-Item "prisma/schema.prisma" "prisma/schema.prod.backup" -Force
+}
 Copy-Item "prisma/schema.dev.prisma" "prisma/schema.prisma" -Force
 
 # Generate Prisma client

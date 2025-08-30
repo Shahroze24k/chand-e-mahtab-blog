@@ -4,9 +4,14 @@
 
 Write-Host "🚀 Setting up production environment..." -ForegroundColor Cyan
 
-# Copy production schema
+# Restore production schema
 Write-Host "📋 Configuring production database schema..." -ForegroundColor Yellow
-Copy-Item "prisma/schema.prod.prisma" "prisma/schema.prisma" -Force
+if (Test-Path "prisma/schema.prod.backup") {
+    Copy-Item "prisma/schema.prod.backup" "prisma/schema.prisma" -Force
+    Write-Host "✅ Production schema restored from backup" -ForegroundColor Green
+} else {
+    Write-Host "⚠️  No backup found - schema.prisma should already be production-ready" -ForegroundColor Yellow
+}
 
 # Generate Prisma client
 Write-Host "🔄 Generating Prisma client..." -ForegroundColor Yellow

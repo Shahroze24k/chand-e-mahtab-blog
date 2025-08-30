@@ -23,9 +23,9 @@ npm run dev
 ## 📁 Project Structure
 
 ### Configuration Files
-- `prisma/schema.prisma` - **Active schema** (auto-switched by setup scripts)
-- `prisma/schema.dev.prisma` - Development schema (SQLite)
-- `prisma/schema.prod.prisma` - Production schema (MySQL)
+- `prisma/schema.prisma` - **Production-ready schema** (MySQL, committed to git)
+- `prisma/schema.dev.prisma` - Development schema (SQLite, for local development)
+- `prisma/schema.prod.backup` - Backup of production schema (auto-created, gitignored)
 - `.env.local` - Your local environment variables
 - `start-dev.ps1` - One-click development startup
 
@@ -34,7 +34,7 @@ npm run dev
 | Aspect | Development | Production |
 |--------|-------------|------------|
 | Database | SQLite (`prisma/dev.db`) | MySQL (Remote) |
-| Schema | `schema.dev.prisma` | `schema.prod.prisma` |
+| Schema | `schema.dev.prisma` → `schema.prisma` | `schema.prisma` (original) |
 | Environment | `.env.local` + script variables | Server environment variables |
 | AI Features | Enabled with Groq | Enabled with Groq |
 
@@ -111,9 +111,15 @@ npm run dev:start
 
 ## 📦 Deployment to Production
 
-### Step 1: Prepare for Production
+### ⚠️ IMPORTANT: Production Safety
+The `prisma/schema.prisma` file is **always production-ready** with MySQL configuration. 
+- ✅ **Safe to deploy**: The schema in git is always MySQL-compatible
+- ✅ **No conflicts**: Development changes don't affect production schema
+- ✅ **Automatic backup**: Development setup creates backups before modifications
+
+### Step 1: Prepare for Production (Optional)
 ```bash
-npm run setup:prod
+npm run setup:prod  # Only needed if you've been developing locally
 ```
 
 ### Step 2: Set Production Environment Variables
@@ -127,6 +133,11 @@ Ensure your production server has:
 ```bash
 npm run deploy
 ```
+
+### 🛡️ Production Deployment Safety
+- The `schema.prisma` in git is **always MySQL-ready**
+- Development modifications are **local-only** and **auto-backed up**
+- No risk of deploying SQLite configuration to production
 
 ## 🔄 Switching Between Dev and Production
 

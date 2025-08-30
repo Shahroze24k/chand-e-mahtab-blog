@@ -1,15 +1,38 @@
 @import "tailwindcss";
 
 :root {
-  --brand-green: #0B5D1E;
-  --brand-gold: #F4C430;
-  --ink: #14221C;
-  --bg: #FAFBF8;
-  --gradient-primary: linear-gradient(135deg, #0B5D1E 0%, #0F7A28 100%);
-  --gradient-secondary: linear-gradient(135deg, #F4C430 0%, #FFD700 100%);
-  --shadow-soft: 0 4px 20px rgba(11, 93, 30, 0.1);
-  --shadow-medium: 0 8px 30px rgba(11, 93, 30, 0.15);
-  --shadow-strong: 0 12px 40px rgba(11, 93, 30, 0.2);
+  /* Moonlight-inspired color palette */
+  --moonlight-blue: #1e3a8a;
+  --moonlight-silver: #e2e8f0;
+  --moonlight-pearl: #f8fafc;
+  --moonlight-gold: #fbbf24;
+  --moonlight-deep: #0f172a;
+  --moonlight-mist: #64748b;
+  
+  /* Cultural accent colors */
+  --cultural-teal: #0d9488;
+  --cultural-amber: #d97706;
+  --cultural-rose: #e11d48;
+  
+  /* Main brand colors */
+  --primary: var(--moonlight-blue);
+  --secondary: var(--cultural-teal);
+  --accent: var(--moonlight-gold);
+  --text-primary: var(--moonlight-deep);
+  --text-secondary: var(--moonlight-mist);
+  --background: var(--moonlight-pearl);
+  --surface: #ffffff;
+  
+  /* Gradients */
+  --gradient-moonlight: linear-gradient(135deg, #1e3a8a 0%, #0d9488 50%, #1e40af 100%);
+  --gradient-cultural: linear-gradient(135deg, #0d9488 0%, #059669 100%);
+  --gradient-accent: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  
+  /* Shadows */
+  --shadow-soft: 0 4px 20px rgba(30, 58, 138, 0.08);
+  --shadow-medium: 0 8px 30px rgba(30, 58, 138, 0.12);
+  --shadow-strong: 0 16px 40px rgba(30, 58, 138, 0.16);
+  --shadow-cultural: 0 8px 25px rgba(13, 148, 136, 0.15);
 }
 
 /* Smooth scrolling */
@@ -23,16 +46,16 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg);
+  background: var(--background);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--brand-green);
+  background: var(--primary);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0F7A28;
+  background: var(--secondary);
 }
 
 /* Animations */
@@ -331,9 +354,113 @@ body {
 }
 
 .prose code {
-  background-color: rgba(11, 93, 30, 0.1);
+  background-color: rgba(30, 58, 138, 0.1);
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
   font-size: 0.9em;
-  color: var(--brand-green);
+  color: var(--primary);
+}
+
+/* Modern Typography Classes */
+.heading-hero {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.heading-section {
+  font-size: clamp(1.875rem, 3vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.content-width {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+/* Moonlight-inspired components */
+.moonlight-card {
+  background: var(--surface);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(30, 58, 138, 0.08);
+}
+
+.moonlight-card:hover {
+  box-shadow: var(--shadow-medium);
+  transform: translateY(-2px);
+}
+
+.cultural-accent {
+  position: relative;
+}
+
+.cultural-accent::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--gradient-cultural);
+  border-radius: 2px;
+}
+
+/* Navigation styles */
+.nav-link {
+  position: relative;
+  transition: all 0.3s ease;
+  color: var(--text-secondary);
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gradient-cultural);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Reading experience */
+.reading-width {
+  max-width: 65ch;
+  margin: 0 auto;
+}
+
+.reading-text {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+/* Cultural patterns */
+.pattern-moonlight {
+  background-image: radial-gradient(circle at 25% 25%, rgba(30, 58, 138, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 75% 75%, rgba(13, 148, 136, 0.1) 0%, transparent 50%);
+}
+
+.pattern-subtle {
+  background-image: linear-gradient(45deg, rgba(30, 58, 138, 0.03) 25%, transparent 25%),
+                    linear-gradient(-45deg, rgba(30, 58, 138, 0.03) 25%, transparent 25%);
+  background-size: 20px 20px;
 }

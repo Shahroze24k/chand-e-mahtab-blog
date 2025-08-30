@@ -27,7 +27,7 @@ export default function PostCard({ post }: PostCardProps) {
   const publishedDate = post.publishedAt || post.createdAt;
 
   return (
-    <article className="bg-white rounded-2xl overflow-hidden hover-lift group" style={{ boxShadow: 'var(--shadow-soft)' }}>
+    <article className="moonlight-card overflow-hidden group">
       {/* Cover Image */}
       {post.coverImage && (
         <div className="relative h-52 w-full overflow-hidden">
