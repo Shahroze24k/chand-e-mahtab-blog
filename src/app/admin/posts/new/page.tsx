@@ -422,6 +422,7 @@ export default function NewPostPage() {
                 Publish immediately (uncheck to save as draft)
               </label>
             </div>
+          </div>
             </div>
           )}
 

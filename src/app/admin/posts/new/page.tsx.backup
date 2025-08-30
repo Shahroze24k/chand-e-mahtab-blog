@@ -1,0 +1,622 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
+import AdminHeader from '@/components/admin/AdminHeader';
+import RichTextEditor from '@/components/RichTextEditor';
+import BannerSelector from '@/components/admin/BannerSelector';
+import Link from 'next/link';
+
+export default function NewPostPage() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    titleEn: '',
+    titleUr: '',
+    summaryEn: '',
+    summaryUr: '',
+    content: '',
+    tags: '',
+    published: false,
+    coverImage: '',
+  });
+
+  const [translatedContent, setTranslatedContent] = useState('');
+  const [aiSuggestions, setAiSuggestions] = useState([]);
+  const [isTranslating, setIsTranslating] = useState(false);
+  const [isGeneratingTags, setIsGeneratingTags] = useState(false);
+  const [isGeneratingSuggestions, setIsGeneratingSuggestions] = useState(false);
+  const [activeTab, setActiveTab] = useState<'basic' | 'content' | 'settings'>('basic');
+
+  // AI Helper Functions
+  const translateTitle = async () => {
+    if (!formData.titleEn.trim()) return;
+    
+    setIsTranslating(true);
+    try {
+      const response = await fetch('/api/ai/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          text: formData.titleEn, 
+          targetLanguage: 'urdu' 
+        }),
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setFormData({ ...formData, titleUr: data.translatedText });
+      }
+    } catch (error) {
+      console.error('Translation error:', error);
+    } finally {
+      setIsTranslating(false);
+    }
+  };
+
+  const translateSummary = async () => {
+    if (!formData.summaryEn.trim()) return;
+    
+    setIsTranslating(true);
+    try {
+      const response = await fetch('/api/ai/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          text: formData.summaryEn, 
+          targetLanguage: 'urdu' 
+        }),
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setFormData({ ...formData, summaryUr: data.translatedText });
+      }
+    } catch (error) {
+      console.error('Translation error:', error);
+    } finally {
+      setIsTranslating(false);
+    }
+  };
+
+  const translateContent = async () => {
+    if (!formData.content.trim()) return;
+    
+    setIsTranslating(true);
+    try {
+      // Strip HTML tags for translation
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = formData.content;
+      const textContent = tempDiv.textContent || tempDiv.innerText || '';
+      
+      if (!textContent.trim()) {
+        alert('No text content found to translate');
+        setIsTranslating(false);
+        return;
+      }
+      
+      const response = await fetch('/api/ai/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          text: textContent, 
+          targetLanguage: 'urdu' 
+        }),
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setTranslatedContent(data.translatedText);
+      } else {
+        const errorData = await response.json();
+        console.error('Translation API error:', errorData);
+        alert(`Translation failed: ${errorData.error || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Translation error:', error);
+      alert(`Translation failed: ${error.message}`);
+    } finally {
+      setIsTranslating(false);
+    }
+  };
+
+  const autoGenerateTags = async () => {
+    if (!formData.content.trim()) return;
+    
+    setIsGeneratingTags(true);
+    try {
+      // Strip HTML tags for tag generation
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = formData.content;
+      const textContent = tempDiv.textContent || tempDiv.innerText || '';
+      
+      if (!textContent.trim()) {
+        alert('No text content found to generate tags');
+        setIsGeneratingTags(false);
+        return;
+      }
+      
+      const response = await fetch('/api/ai/generate-tags', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          content: textContent,
+          title: formData.titleEn
+        }),
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.tags && data.tags.length > 0) {
+          setFormData({ ...formData, tags: data.tags.join(', ') });
+        } else {
+          alert('No tags were generated. Please try again.');
+        }
+      } else {
+        const errorData = await response.json();
+        console.error('Tag generation API error:', errorData);
+        alert(`Tag generation failed: ${errorData.error || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Tag generation error:', error);
+      alert(`Tag generation failed: ${error.message}`);
+    } finally {
+      setIsGeneratingTags(false);
+    }
+  };
+
+  const generateAISuggestions = async () => {
+    if (!formData.content.trim()) return;
+    
+    setIsGeneratingSuggestions(true);
+    try {
+      const response = await fetch('/api/ai/suggestions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          content: formData.content,
+          language: 'english'
+        }),
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setAiSuggestions(data.suggestions);
+      }
+    } catch (error) {
+      console.error('AI suggestions error:', error);
+    } finally {
+      setIsGeneratingSuggestions(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/api/admin/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          content: formData.content, // Already HTML from rich text editor
+        }),
+      });
+
+      if (response.ok) {
+        const { post } = await response.json();
+        router.push(`/admin/posts`);
+      } else {
+        const error = await response.json();
+        alert(error.message || 'Failed to create post');
+      }
+    } catch (error) {
+      console.error('Error creating post:', error);
+      alert('Failed to create post. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen" style={{ backgroundColor: '#FAFBF8' }}>
+      <AdminHeader />
+      
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="font-playfair text-3xl md:text-4xl font-bold mb-2" style={{ color: '#14221C' }}>
+                Create New Post
+              </h1>
+              <h2 className="font-urdu text-xl md:text-2xl rtl" style={{ color: 'rgba(20, 34, 28, 0.8)' }}>
+                نیا مضمون بنائیں
+              </h2>
+            </div>
+            
+            <Link
+              href="/admin/posts"
+              className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+            >
+              ← Back to Posts
+            </Link>
+          </div>
+        </div>
+
+        {/* Progress Navigation */}
+        <div className="mb-8">
+          <div className="flex flex-wrap gap-2 p-1 bg-white rounded-lg shadow-sm border">
+            {[
+              { key: 'basic', label: '📝 Basic Info', icon: '📝' },
+              { key: 'content', label: '✍️ Content', icon: '✍️' },
+              { key: 'settings', label: '⚙️ Settings', icon: '⚙️' }
+            ].map((section) => (
+              <button
+                key={section.key}
+                type="button"
+                onClick={() => setActiveTab(section.key as any)}
+                className={`flex-1 px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === section.key
+                    ? 'bg-green-600 text-white shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                }`}
+              >
+                {section.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-8">
+          {/* Basic Information Section */}
+          {activeTab === 'basic' && (
+            <div className="space-y-8 animate-fade-in-up">
+              <div className="bg-white rounded-xl shadow-sm border p-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                    <span className="text-green-600 text-lg">📝</span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">Basic Information</h3>
+                    <p className="text-sm text-gray-600">Essential details about your post</p>
+                  </div>
+                </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* English Title */}
+              <div>
+                <label htmlFor="titleEn" className="block text-sm font-medium text-gray-700 mb-2">
+                  Title (English) *
+                </label>
+                <input
+                  id="titleEn"
+                  type="text"
+                  required
+                  value={formData.titleEn}
+                  onChange={(e) => setFormData({ ...formData, titleEn: e.target.value })}
+                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  placeholder="Enter the post title in English"
+                />
+                <button
+                  type="button"
+                  onClick={translateTitle}
+                  disabled={!formData.titleEn.trim() || isTranslating}
+                  className="mt-2 px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  {isTranslating ? '⏳ Translating...' : '🔄 Translate to Urdu'}
+                </button>
+              </div>
+
+              {/* Urdu Title */}
+              <div>
+                <label htmlFor="titleUr" className="block text-sm font-medium text-gray-700 mb-2">
+                  Title (Urdu)
+                </label>
+                <input
+                  id="titleUr"
+                  type="text"
+                  value={formData.titleUr}
+                  onChange={(e) => setFormData({ ...formData, titleUr: e.target.value })}
+                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent font-urdu rtl"
+                  placeholder="اردو میں عنوان درج کریں"
+                />
+              </div>
+
+              {/* English Summary */}
+              <div>
+                <label htmlFor="summaryEn" className="block text-sm font-medium text-gray-700 mb-2">
+                  Summary (English)
+                </label>
+                <textarea
+                  id="summaryEn"
+                  rows={3}
+                  value={formData.summaryEn}
+                  onChange={(e) => setFormData({ ...formData, summaryEn: e.target.value })}
+                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  placeholder="Brief summary of the post in English"
+                />
+                <button
+                  type="button"
+                  onClick={translateSummary}
+                  disabled={!formData.summaryEn.trim() || isTranslating}
+                  className="mt-2 px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  {isTranslating ? '⏳ Translating...' : '🔄 Translate to Urdu'}
+                </button>
+              </div>
+
+              {/* Urdu Summary */}
+              <div>
+                <label htmlFor="summaryUr" className="block text-sm font-medium text-gray-700 mb-2">
+                  Summary (Urdu)
+                </label>
+                <textarea
+                  id="summaryUr"
+                  rows={3}
+                  value={formData.summaryUr}
+                  onChange={(e) => setFormData({ ...formData, summaryUr: e.target.value })}
+                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent font-urdu rtl"
+                  placeholder="اردو میں مختصر خلاصہ"
+                />
+              </div>
+              </div>
+              
+              {/* Cover Image Selector */}
+              <BannerSelector
+                selectedBanner={formData.coverImage}
+                onBannerSelect={(bannerPath) => setFormData({ ...formData, coverImage: bannerPath })}
+              />
+            </div>
+          )}
+
+          {/* Content Editor Section */}
+          {activeTab === 'content' && (
+            <div className="space-y-8 animate-fade-in-up">
+              {/* Content Editor */}
+              <div className="bg-white rounded-xl shadow-sm border p-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <span className="text-blue-600 text-lg">✍️</span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">Post Content</h3>
+                    <p className="text-sm text-gray-600">Write and format your blog post content</p>
+                  </div>
+                </div>
+                
+                <RichTextEditor
+                  content={formData.content}
+                  onChange={(content) => setFormData({ ...formData, content })}
+                  placeholder="Start writing your post here... You can import from Word/PDF, add images, and use rich formatting!"
+                />
+              </div>
+
+              {/* Content Translation */}
+              <div className="bg-white rounded-xl shadow-sm border p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                      <span className="text-purple-600 text-lg">🌐</span>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">Translated Content (Urdu)</h3>
+                      <p className="text-sm text-gray-600">Translate your content to Urdu for review</p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={translateContent}
+                    disabled={!formData.content.trim() || isTranslating}
+                    className="px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    {isTranslating ? '⏳ Translating...' : '🔄 Translate Content to Urdu'}
+                  </button>
+                </div>
+                
+                <textarea
+                  value={translatedContent}
+                  onChange={(e) => setTranslatedContent(e.target.value)}
+                  rows={10}
+                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent font-urdu rtl"
+                  placeholder="Translated Urdu content will appear here... You can also edit it manually and copy to the main editor."
+                />
+                <p className="text-sm text-gray-500 mt-2">
+                  The translated content appears here for review. You can edit it and copy it to the main content editor above.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Settings Section */}
+          {activeTab === 'settings' && (
+            <div className="space-y-8 animate-fade-in-up">
+              {/* Tags & Categories */}
+              <div className="bg-white rounded-xl shadow-sm border p-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <span className="text-purple-600 text-lg">🏷️</span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">Tags & Categories</h3>
+                    <p className="text-sm text-gray-600">Organize your content with tags</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label htmlFor="tags" className="block text-sm font-medium text-gray-700 mb-2">
+                      Tags
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        id="tags"
+                        type="text"
+                        value={formData.tags}
+                        onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                        className="flex-1 p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        placeholder="tag1, tag2, tag3"
+                      />
+                      <button
+                        type="button"
+                        onClick={autoGenerateTags}
+                        disabled={isGeneratingTags}
+                        className="px-4 py-2 bg-purple-600 text-white text-sm rounded-md hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors whitespace-nowrap"
+                      >
+                        {isGeneratingTags ? '⏳' : '🤖 Auto-generate'}
+                      </button>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">Separate tags with commas, or auto-generate based on content</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* AI Suggestions */}
+              <div className="bg-white rounded-xl shadow-sm border p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                      <span className="text-green-600 text-lg">🧠</span>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">AI Content Suggestions</h3>
+                      <p className="text-sm text-gray-600">Get AI-powered suggestions to improve your content</p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={generateAISuggestions}
+                    disabled={!formData.content.trim() || isGeneratingSuggestions}
+                    className="px-4 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    {isGeneratingSuggestions ? '⏳ Generating...' : '🧠 Get AI Suggestions'}
+                  </button>
+                </div>
+                
+                {aiSuggestions.length > 0 && (
+                  <div className="space-y-3">
+                    <h4 className="font-medium text-gray-800">Suggestions to improve your content:</h4>
+                    <ul className="space-y-2">
+                      {aiSuggestions.map((suggestion, index) => (
+                        <li key={index} className="flex items-start space-x-2 p-3 bg-gray-50 rounded-md">
+                          <span className="text-green-600 font-bold text-sm">{index + 1}.</span>
+                          <span className="text-gray-700 text-sm">{suggestion}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                
+                {aiSuggestions.length === 0 && (
+                  <p className="text-gray-500 text-sm">
+                    Write some content and click "Get AI Suggestions" to receive personalized recommendations for improving your post.
+                  </p>
+                )}
+              </div>
+
+              {/* Publishing Options */}
+              <div className="bg-white rounded-xl shadow-sm border p-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
+                    <span className="text-amber-600 text-lg">⚙️</span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">Publishing Settings</h3>
+                    <p className="text-sm text-gray-600">Control how your post appears to readers</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="flex items-center p-4 bg-gray-50 rounded-lg">
+                    <input
+                      id="published"
+                      type="checkbox"
+                      checked={formData.published}
+                      onChange={(e) => setFormData({ ...formData, published: e.target.checked })}
+                      className="h-5 w-5 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                    />
+                    <div className="ml-4">
+                      <label htmlFor="published" className="block text-sm font-medium text-gray-900">
+                        Published Status
+                      </label>
+                      <p className="text-sm text-gray-600">
+                        {formData.published ? 'This post is visible to all readers' : 'This post is saved as draft'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Sticky Action Bar */}
+          <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4 rounded-t-lg shadow-lg">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/admin/posts"
+                  className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </Link>
+              </div>
+              
+              <div className="flex items-center gap-4">
+                {/* Progress Indicator */}
+                <div className="text-sm text-gray-600">
+                  {activeTab === 'basic' && 'Step 1 of 3'}
+                  {activeTab === 'content' && 'Step 2 of 3'}
+                  {activeTab === 'settings' && 'Step 3 of 3'}
+                </div>
+                
+                {/* Navigation Buttons */}
+                <div className="flex gap-2">
+                  {activeTab !== 'basic' && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (activeTab === 'content') setActiveTab('basic');
+                        if (activeTab === 'settings') setActiveTab('content');
+                      }}
+                      className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      ← Previous
+                    </button>
+                  )}
+                  
+                  {activeTab !== 'settings' && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (activeTab === 'basic') setActiveTab('content');
+                        if (activeTab === 'content') setActiveTab('settings');
+                      }}
+                      className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                    >
+                      Next →
+                    </button>
+                  )}
+                  
+                  {activeTab === 'settings' && (
+                    <button
+                      type="submit"
+                      disabled={isLoading || !formData.titleEn.trim() || !formData.content.trim()}
+                      className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      {isLoading ? 'Creating...' : formData.published ? 'Publish Post' : 'Save Draft'}
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </main>
+    </div>
+  );
+}
+
