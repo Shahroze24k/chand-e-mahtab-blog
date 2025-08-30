@@ -8,6 +8,9 @@
   },
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:clean": "next dev",
+    "dev:setup": "powershell -ExecutionPolicy Bypass -File scripts/setup-dev.ps1",
+    "dev:start": "powershell -ExecutionPolicy Bypass -File start-dev.ps1",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -16,6 +19,8 @@
     "db:studio": "prisma studio",
     "db:seed": "tsx prisma/seed.ts",
     "seed": "npm run db:seed",
+    "setup:dev": "npm run dev:setup",
+    "setup:prod": "powershell -ExecutionPolicy Bypass -File scripts/setup-prod.ps1",
     "migrate-to-mysql": "node migrate-to-mysql.js",
     "deploy:mysql": "npm run db:generate && npm run db:push && npm run seed && npm run build",
     "postinstall": "prisma generate",

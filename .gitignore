@@ -40,4 +40,14 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Development files (local only)
+prisma/dev.db
+prisma/dev.db-journal
+prisma/prisma/dev.db
+prisma/prisma/dev.db-journal
+start-dev.ps1
+start-dev.bat
+.env.development
+
+# Generated Prisma files
 /src/generated/prisma
